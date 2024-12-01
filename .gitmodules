@@ -1,3 +1,30 @@
 [submodule "hse-cs"]
 	path = hse-cs
 	url = git@github.com:heartsker/hse-cs.git
+[submodule "CoreKit"]
+	path = CoreKit
+	url = git@github.com:heartsker/CoreKit.git
+[submodule "heartsker"]
+	path = heartsker
+	url = git@github.com:heartsker/heartsker.git
+[submodule "ios-interview"]
+	path = ios-interview
+	url = git@github.com:heartsker/ios-interview.git
+[submodule "leetcode"]
+	path = leetcode
+	url = git@github.com:heartsker/leetcode.git
+[submodule "lichess-bot"]
+	path = lichess-bot
+	url = git@github.com:heartsker/lichess-bot.git
+[submodule "publear"]
+	path = publear
+	url = git@github.com:heartsker/publear.git
+[submodule "resume"]
+	path = resume
+	url = git@github.com:heartsker/resume.git
+[submodule "system-configuration"]
+	path = system-configuration
+	url = git@github.com:heartsker/system-configuration.git
+[submodule "wordle"]
+	path = wordle
+	url = git@github.com:heartsker/wordle.git
