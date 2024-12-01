@@ -2,6 +2,11 @@
 
 .PHONY: pull push
 
+# Constants
+
+GITHUB_DEFAULT_REPO_URL_PREFIX = "git@github.com:heartsker/"
+GIT_EXTENSION = ".git"
+
 # 🛠️ Pull all repositories (main repo + submodules)
 pull:
 	@echo "⬇️ Pulling changes for all submodules..."
@@ -15,8 +20,10 @@ pull:
 # Commit all changes in submodules and main repository and push
 commit:
 	@echo "🔄 Committing changes for all submodules..."
-	@git submodule foreach git add .
-	@git submodule foreach git commit -m "$m"
+	@if [ -z "$(m)" ]; then echo "Please provide a commit message using 'm' parameter"; exit 1; fi
+	@echo "👀 Checking for changes in submodules..."
+	# check that no submodule has uncommitted changes
+	@git submodule foreach git diff-index --quiet HEAD -- || (echo "❌ Some submodules have uncommitted changes. Please commit or stash them before proceeding."; exit 1)
 	@echo "🔄 Committing changes for the main repository..."
 	@git add .
 	@git commit -m "$m"
@@ -33,5 +40,9 @@ push:
 # ➕ Add a new submodule
 add-submodule:
 	@echo "🔄 Adding submodule at $p..."
-	@git submodule add $u $p
+	@if [ -z "$u" ]; then \
+		u=$(GITHUB_DEFAULT_REPO_URL_PREFIX)$$p$(GIT_EXTENSION); \
+		echo "ℹ️ Using default URL: $$u"; \
+	fi; \
+	git submodule add $$u $$p
 	@echo "✅ Submodule added!"
