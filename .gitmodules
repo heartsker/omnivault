@@ -1,0 +1,3 @@
+[submodule "hse-cs"]
+	path = hse-cs
+	url = git@github.com:heartsker/hse-cs.git
