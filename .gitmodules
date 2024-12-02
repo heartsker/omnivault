@@ -8,6 +8,7 @@
 [submodule "hse-cs"]
 	path = hse-cs
 	url = git@github.com:heartsker/hse-cs.git
+	branch = 2024-2025
 [submodule "resume"]
 	path = resume
 	url = git@github.com:heartsker/resume.git
