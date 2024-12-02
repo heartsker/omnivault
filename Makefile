@@ -1,11 +1,12 @@
 # Makefile for managing git repositories with submodules 💻
 
-.PHONY: pull push
+.PHONY: pull push submodules
 
 # Constants
 
 GITHUB_DEFAULT_REPO_URL_PREFIX = "git@github.com:heartsker/"
 GIT_EXTENSION = ".git"
+INFRA_PATH = "_infra"
 
 # 🛠️ Pull all repositories (main repo + submodules)
 pull:
@@ -37,12 +38,71 @@ push:
 	@git push origin "$$(git rev-parse --abbrev-ref HEAD)"
 	@echo "✅ Push complete!"
 
-# ➕ Add a new submodule
+# Add a new submodule
 add-submodule:
-	@echo "🔄 Adding submodule at $p..."
-	@if [ -z "$u" ]; then \
+	@if [ -z "$(p)" ]; then echo "❌ Missing submodule path. Use: make add-submodule p=<path> [u=<url>]"; exit 1; fi
+	@echo "🔄 Adding submodule at $(p)..."
+	@if [ -z "$(u)" ]; then \
 		u=$(GITHUB_DEFAULT_REPO_URL_PREFIX)$$p$(GIT_EXTENSION); \
 		echo "ℹ️ Using default URL: $$u"; \
+	else \
+		url="$(u)"; \
 	fi; \
-	git submodule add $$u $$p
-	@echo "✅ Submodule added!"
+	git submodule add $$url $(p)
+
+	setup-submodule p=$p
+
+	@echo "✅ Submodule added and setup!"
+
+# Setup submodule
+setup-submodule:
+	@$(MAKE) assert c="[ -z $p ]" m="❌ Missing submodule path. Use: make setup-submodule p=<path>"
+	@echo "🔄 Setting up submodule at $p..."
+
+	@echo "📂 Copying infra/Makefile to $p..."
+	@cp $(INFRA_PATH)/Makefile $p/Makefile
+
+	@echo "✅ Submodule `$p` setup complete!"
+
+# Push all changes (from root and submodules)
+push-all:
+	@echo "🚀 Pushing changes for all submodules..."
+	@find . -type f -name "Makefile" -execdir $(MAKE) push \;
+	@echo "✅ All submodules pushed!"
+
+# Run a command for all submodules
+# c: command to run
+submodules:
+	$(call assert-argument,command,$(c),make submodules c=<your-command>)
+
+	@echo "🔄 Running command $c for all submodules..."
+	@git submodule foreach --quiet $c
+	@echo "✅ Finished running command for all submodules."
+
+# Helpers
+
+.PHONY: assert assert-argument
+
+# Assert target for validating conditions
+# $1: condition to check
+# $2: message to display if condition is false (optional)
+define assert
+	@if ! [ "$1" ]; then \
+		echo "$2"; \
+		exit 1; \
+	fi
+endef
+
+# Assert target for validating arguments
+# $1: name of the argument
+# $2: value of the argument
+# $3: usage message (optional)
+define assert-argument
+	@if [ -z "$2" ]; then \
+		echo "❌ Missing argument: $1"; \
+		if [ ! -z "$3" ]; then \
+			echo "\t👀 Usage: $3"; \
+		fi; \
+		exit 1; \
+	fi
+endef
