@@ -8,15 +8,9 @@ GITHUB_DEFAULT_REPO_URL_PREFIX = git@github.com:heartsker/
 GIT_EXTENSION = .git
 INFRA_PATH = _infra
 
-# 🛠️ Pull all repositories (main repo + submodules)
+# Pull the main repo and all submodules recursively
 pull:
-	@echo "⬇️ Pulling changes for all submodules..."
-	@git submodule update --init --recursive
-	@git submodule foreach --recursive git fetch --all
-	@git submodule foreach --recursive git pull origin "$$(git rev-parse --abbrev-ref HEAD)"
-	@echo "⬇️ Pulling changes for the main repository..."
-	@git pull origin "$$(git rev-parse --abbrev-ref HEAD)"
-	@echo "✅ Pull complete!"
+	@_infra/pull.sh
 
 # Commit all changes in submodules and main repository and push
 commit:
