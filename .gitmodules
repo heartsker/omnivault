@@ -4,9 +4,6 @@
 [submodule "CoreKit"]
 	path = CoreKit
 	url = git@github.com:heartsker/CoreKit.git
-[submodule "heartsker"]
-	path = heartsker
-	url = git@github.com:heartsker/heartsker.git
 [submodule "hse-cs"]
 	path = hse-cs
 	url = git@github.com:heartsker/hse-cs.git
@@ -19,12 +16,6 @@
 [submodule "lichess-bot"]
 	path = lichess-bot
 	url = git@github.com:heartsker/lichess-bot.git
-[submodule "neighbr-guide"]
-	path = neighbr-guide
-	url = git@github.com:heartsker/neighbr-guide.git
-[submodule "publear"]
-	path = publear
-	url = git@github.com:heartsker/publear.git
 [submodule "resume"]
 	path = resume
 	url = git@github.com:heartsker/resume.git
