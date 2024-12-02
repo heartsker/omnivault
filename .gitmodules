@@ -1,6 +1,7 @@
 [submodule "apps"]
 	path = apps
 	url = git@github.com:heartsker/apps.git
+	branch = main
 [submodule "CoreKit"]
 	path = CoreKit
 	url = git@github.com:heartsker/CoreKit.git
@@ -10,6 +11,7 @@
 [submodule "resume"]
 	path = resume
 	url = git@github.com:heartsker/resume.git
+	branch = gh-pages
 [submodule "system-configuration"]
 	path = system-configuration
 	url = git@github.com:heartsker/system-configuration.git
