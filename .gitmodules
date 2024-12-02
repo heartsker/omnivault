@@ -1,3 +1,6 @@
+[submodule "apps"]
+	path = apps
+	url = git@github.com:heartsker/apps.git
 [submodule "CoreKit"]
 	path = CoreKit
 	url = git@github.com:heartsker/CoreKit.git

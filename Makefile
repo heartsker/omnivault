@@ -4,9 +4,9 @@
 
 # Constants
 
-GITHUB_DEFAULT_REPO_URL_PREFIX = "git@github.com:heartsker/"
-GIT_EXTENSION = ".git"
-INFRA_PATH = "_infra"
+GITHUB_DEFAULT_REPO_URL_PREFIX = git@github.com:heartsker/
+GIT_EXTENSION = .git
+INFRA_PATH = _infra
 
 # 🛠️ Pull all repositories (main repo + submodules)
 pull:
@@ -20,11 +20,7 @@ pull:
 
 # Commit all changes in submodules and main repository and push
 commit:
-	@echo "🔄 Committing changes for all submodules..."
-	@if [ -z "$(m)" ]; then echo "Please provide a commit message using 'm' parameter"; exit 1; fi
-	@echo "👀 Checking for changes in submodules..."
-	# check that no submodule has uncommitted changes
-	@git submodule foreach git diff-index --quiet HEAD -- || (echo "❌ Some submodules have uncommitted changes. Please commit or stash them before proceeding."; exit 1)
+	$(call assert,git submodule status --recursive | grep -q "^[+-]",❌ Some submodules have uncommitted changes. Please commit or stash them before)
 	@echo "🔄 Committing changes for the main repository..."
 	@git add .
 	@git commit -m "$m"
@@ -39,30 +35,19 @@ push:
 	@echo "✅ Push complete!"
 
 # Add a new submodule
+# p: path of the submodule
+# u: URL of the submodule (optional) - default is the GitHub URL
 add-submodule:
-	@if [ -z "$(p)" ]; then echo "❌ Missing submodule path. Use: make add-submodule p=<path> [u=<url>]"; exit 1; fi
-	@echo "🔄 Adding submodule at $(p)..."
-	@if [ -z "$(u)" ]; then \
-		u=$(GITHUB_DEFAULT_REPO_URL_PREFIX)$$p$(GIT_EXTENSION); \
-		echo "ℹ️ Using default URL: $$u"; \
-	else \
-		url="$(u)"; \
-	fi; \
-	git submodule add $$url $(p)
+	$(call assert-argument, key=$(p), name="path", usage="make add-submodule p=<path> [u=<url>]")
 
-	setup-submodule p=$p
+	@if [ ! -d "$(p)" ]; then \
+		echo "👀 Path $(p) does not exist. Trying to clone the submodule..."; \
+		git clone $(GITHUB_DEFAULT_REPO_URL_PREFIX)$p$(GIT_EXTENSION) $(p) || exit 1; \
+	fi
+
+	git submodule add $(GITHUB_DEFAULT_REPO_URL_PREFIX)$p$(GIT_EXTENSION) $(p)
 
 	@echo "✅ Submodule added and setup!"
-
-# Setup submodule
-setup-submodule:
-	@$(MAKE) assert c="[ -z $p ]" m="❌ Missing submodule path. Use: make setup-submodule p=<path>"
-	@echo "🔄 Setting up submodule at $p..."
-
-	@echo "📂 Copying infra/Makefile to $p..."
-	@cp $(INFRA_PATH)/Makefile $p/Makefile
-
-	@echo "✅ Submodule `$p` setup complete!"
 
 # Push all changes (from root and submodules)
 push-all:
