@@ -12,9 +12,6 @@ git submodule foreach --recursive '
 		if [ -z "$branch" ]; then
 			branch=$(git config -f "$toplevel/.gitmodules" submodule."$name".branch || echo "main")
 		fi
-		echo $toplevel
-		echo $path
-		echo $branch
 		git -C "$toplevel/$path" push origin "$branch" || exit 1
 	else
 		echo "⚠️  Skipping submodule $name (missing path: $path)"
