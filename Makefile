@@ -22,11 +22,7 @@ commit:
 
 # 🚀 Push all repositories (main repo + submodules)
 push:
-	@echo "⬆️ Pushing changes for all submodules..."
-	@git submodule foreach git push origin "$$(git rev-parse --abbrev-ref HEAD)"
-	@echo "⬆️ Pushing changes for the main repository..."
-	@git push origin "$$(git rev-parse --abbrev-ref HEAD)"
-	@echo "✅ Push complete!"
+	@_infra/push.sh
 
 # Add a new submodule
 # p: path of the submodule
