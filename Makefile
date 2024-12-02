@@ -12,8 +12,8 @@ INFRA_PATH = _infra
 pull:
 	@echo "⬇️ Pulling changes for all submodules..."
 	@git submodule update --init --recursive
-	@git submodule foreach git fetch --all
-	@git submodule foreach git pull origin "$$(git rev-parse --abbrev-ref HEAD)"
+	@git submodule foreach --recursive git fetch --all
+	@git submodule foreach --recursive git pull origin "$$(git rev-parse --abbrev-ref HEAD)"
 	@echo "⬇️ Pulling changes for the main repository..."
 	@git pull origin "$$(git rev-parse --abbrev-ref HEAD)"
 	@echo "✅ Pull complete!"
