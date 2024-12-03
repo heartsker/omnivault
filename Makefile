@@ -7,16 +7,14 @@
 GITHUB_DEFAULT_REPO_URL_PREFIX = git@github.com:heartsker/
 GIT_EXTENSION = .git
 INFRA_PATH = _infra
-HOOKS_PATH = $(INFRA_PATH)/hooks
-REQUIREMENTS_PATH = $(INFRA_PATH)/requirements
 
 # Setup omnivault
 setup:
 	@echo "🚀 Setting up repository"
 
-	@$(MAKE) -C $(REQUIREMENTS_PATH) install-requirements
+	@$(MAKE) -C $(INFRA_PATH) install-requirements
 
-	@$(MAKE) -C $(HOOKS_PATH) install-hooks
+	@$(MAKE) -C $(INFRA_PATH) install-hooks
 
 	@echo "✅ Setup complete!"
 
