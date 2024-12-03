@@ -2,53 +2,70 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
       - id: check-yaml
+        name: (yaml) check
       - id: debug-statements
+        name: (python) debug statements
       - id: double-quote-string-fixer
+        name: (python) double quote string fixer
+      - id: end-of-file-fixer
+        name: <fix> end of file
+      - id: mixed-line-ending
+        name: <fix> mixed line endings
       - id: name-tests-test
+        name: (python) tests naming
+      - id: pretty-format-json
+        name: (json) pretty format
+        args:
+          - --indent=4
       - id: requirements-txt-fixer
+        name: <fix> requirements.txt
+      - id: trailing-whitespace
+        name: <fix> trailing whitespace
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v3.6.0
     hooks:
       - id: conventional-pre-commit
+        name: conventional commit message
         stages: [commit-msg]
         args: [--strict, feat, fix, chore, test, tech, auto]
-  - repo: https://github.com/asottile/setup-cfg-fmt
-    rev: v2.7.0
-    hooks:
-      - id: setup-cfg-fmt
   - repo: https://github.com/asottile/reorder-python-imports
     rev: v3.14.0
     hooks:
       - id: reorder-python-imports
+        name: (python) reorder imports
         exclude: ^(pre_commit/resources/|testing/resources/python3_hooks_repo/)
         args: [--py39-plus, --add-import, 'from __future__ import annotations']
   - repo: https://github.com/asottile/add-trailing-comma
     rev: v3.1.0
     hooks:
       - id: add-trailing-comma
+        name: (python) trailing comma
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.19.0
     hooks:
       - id: pyupgrade
+        name: (python) pyupgrade
         args: [--py39-plus]
   - repo: https://github.com/hhatto/autopep8
     rev: v2.3.1
     hooks:
       - id: autopep8
+        name: (python) autopep8
   - repo: https://github.com/PyCQA/flake8
     rev: 7.1.1
     hooks:
       - id: flake8
+        name: (python) flake8
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.13.0
     hooks:
       - id: mypy
+        name: (python) mypy
         additional_dependencies: [types-pyyaml]
         exclude: ^testing/resources/
   - repo: https://github.com/realm/SwiftLint
     rev: 0.50.3
     hooks:
       - id: swiftlint
+        name: (swift) swiftlint
