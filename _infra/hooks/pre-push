@@ -1,11 +1,7 @@
 #!/bin/bash
 
-echo "🚀 Pushing changes for submodules..."
-
 git submodule foreach --recursive --quiet '
     echo "⏳ Pushing $name...";
     branch=$(git rev-parse --abbrev-ref HEAD);
     git push origin $branch || echo "⚠️ Failed to push $name.";
 '
-
-echo "✅ All submodules pushed!"
