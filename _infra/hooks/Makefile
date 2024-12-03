@@ -3,9 +3,12 @@
 VAULT_ROOT = $(shell git rev-parse --show-toplevel)
 HOOKS_TEMPLATES = $(VAULT_ROOT)/_infra/hooks/*
 GIT_HOOKS_PATH = $(VAULT_ROOT)/.git/hooks/
+CONFIGS = $(VAULT_ROOT)/_infra/configs
 
 install-hooks:
 	@echo "🚀 Setting up git hooks"
+
+	@pre-commit install -c $(CONFIGS)/.pre-commit-config.yaml
 
 	@mkdir -p $(VAULT_ROOT)/.git/hooks
 	@cp $(HOOKS_TEMPLATES) $(GIT_HOOKS_PATH)

@@ -1,0 +1,405 @@
+disabled_rules:
+  - color_literal
+  - cyclomatic_complexity
+  - function_body_length
+analyzer_rules:
+  - capture_variable
+  - typesafe_array_init
+  - unused_declaration
+  - unused_import
+opt_in_rules:
+  # - accessibility_label_for_image - to be enabled in the future
+  # - accessibility_trait_for_button - to be enabled in the future
+  - anonymous_argument_in_multiline_closure
+  - array_init
+  - attributes
+  - balanced_xctest_lifecycle
+  - closure_body_length
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - comma_inheritance
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - contains_over_first_not_nil
+  - contains_over_range_nil_comparison
+  - convenience_type
+  - discarded_notification_center_observer
+  - discouraged_assert
+  - discouraged_none_name
+  - discouraged_object_literal
+  - discouraged_optional_collection
+  - empty_collection_literal
+  - empty_count
+  - empty_string
+  - empty_xctest_method
+  - enum_case_associated_values_count
+  - expiring_todo
+  - explicit_init
+  - extension_access_modifier
+  - fallthrough
+  - fatal_error_message
+  - file_header
+  - file_name_no_space
+  - first_where
+  - flatmap_over_map_reduce
+  - force_unwrapping
+  - function_default_parameter_at_end
+  - ibinspectable_in_extension
+  - identical_operands
+  - implicit_return
+  - implicitly_unwrapped_optional
+  - joined_default_parameter
+  - last_where
+  - legacy_multiple
+  - legacy_objc_type
+  - let_var_whitespace
+  - literal_expression_end_indentation
+  - local_doc_comment
+  - lower_acl_than_parent
+  # - missing_docs
+  - modifier_order
+  - multiline_arguments
+  - multiline_arguments_brackets
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - nslocalizedstring_key
+  - nslocalizedstring_require_bundle
+  - number_separator
+  - object_literal
+  - operator_usage_whitespace
+  - optional_enum_case_matching
+  - overridden_super_call
+  - override_in_extension
+  - pattern_matching_keywords
+  - prefer_self_in_static_references
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
+  - private_action
+  - private_outlet
+  - private_subject
+  - prohibited_interface_builder
+  - prohibited_super_call
+  - quick_discouraged_call
+  - quick_discouraged_focused_test
+  - quick_discouraged_pending_test
+  - raw_value_for_camel_cased_codable_enum
+  - reduce_into
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - required_enum_case
+  - return_value_from_void_function
+  - self_binding
+  - shorthand_optional_binding
+  - single_test_class
+  - sorted_first_last
+  - sorted_imports
+  - static_operator
+  - strict_fileprivate
+  - strong_iboutlet
+  - test_case_accessibility
+  - toggle_bool
+  - trailing_closure
+  - unavailable_function
+  - unneeded_parentheses_in_closure_argument
+  - unowned_variable_capture
+  - untyped_error_in_catch
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_between_cases
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - weak_delegate
+  - xct_specific_matcher
+  - yoda_condition
+
+included:
+  - NeighbrGuide
+  - SPM
+excluded:
+  - SPM/Localizer/Sources/Localizer/Localizers/Generated
+  - NeighbrGuide/Generated
+
+warning_threshold: 500
+
+file_length:
+  - 300
+  - 500
+
+large_tuple:
+  - 5
+  - 6
+
+identifier_name:
+  excluded: [
+    i, j,
+    x, y, h,
+    xs, s, m, l, xl,
+    to, at,
+    id,
+    de, en, ru,
+    ms,
+    ns,
+    up,
+    dx, dy,
+    ok
+  ]
+  allowed_symbols:
+    - "_"
+  max_length:
+    warning: 50
+
+type_name:
+  excluded:
+    - RT
+    - ID
+  max_length:
+    warning: 50
+
+line_length:
+  ignores_comments: true
+
+modifier_order:
+  preferred_modifier_order: [final, acl, setterACL, override, dynamic, mutators, lazy, required, convenience, typeMethods, owned]
+
+force_unwrapping:
+  warning
+
+force_cast:
+  error
+
+closure_body_length:
+  warning: 40
+
+nesting:
+  type_level: 2
+
+unused_import:
+  require_explicit_imports: false
+  always_keep_imports:
+    - Base
+    - BaseUI
+    - RxSweet
+    - Foundation
+    - _PhotosUI_SwiftUI
+    - CoreGraphics
+    - Darwin
+    - Dispatch
+    - UIKit
+  allowed_transitive_imports:
+    - module: Base
+      allowed_transitive_imports:
+        - Combine
+        - CommonTypes
+        - CommonUtils
+        - DevTools
+        - Foundation
+        - Localizer
+        - Navigation
+    - module: BaseUI
+      allowed_transitive_imports:
+        - Combine
+        - CommonUI
+        - Localizer
+        - Navigation
+        - SwiftUI
+    - module: Foundation
+      allowed_transitive_imports:
+        - _Concurrency
+        - CoreFoundation
+        - Darwin
+        - Dispatch
+        - ObjectiveC
+    - module: UIKit
+      allowed_transitive_imports:
+        - CoreGraphics
+        - CoreText
+
+# Custom rules
+custom_rules:
+  print_call:
+    name: "Print usage"
+    regex: "print\\(.*\\)"
+    message: "Use Logger for log data to the console instead of Swift.print(_:)"
+    severity: warning
+
+  cyrillic_file_name:
+    name: "Usage of cyrillic in file naming is forbidden"
+    regex: "[A-Za-z]*[ЁёА-я]+[A-Za-z]*(\\.swift)$"
+    message: "Ensure that filename does not contain cyrillic symbols"
+    match_kinds:
+      - comment
+    severity: error
+
+  cyrillic_code:
+    name: "Usage of cyrillic in code is forbidden"
+    regex: "[ЁёА-я]"
+    message: "Ensure that your code does not contain cyrillic symbols"
+    match_kinds:
+      - argument
+      - identifier
+      - keyword
+      - parameter
+      - typeidentifier
+      - comment
+      - doccomment
+    severity: error
+
+  wrong_id_usage:
+    name: "Wrong identificator naming"
+    regex: "(var|let) \\w*Id( |:)"
+    message: "Use `ID` instead"
+    severity: error
+
+  wrong_url_usage:
+    name: "Wrong URL naming"
+    regex: "(var|let) \\w*Url( |:)"
+    message: "Use `URL` instead"
+    severity: error
+
+  empty_string_check:
+    name: "Incorrect empty string checking"
+    regex: "( == \"\")|(== \"\")|( ==\"\")|(==\"\")|( != \"\")|(!= \"\")|( !=\"\")|(!=\"\")"
+    message: "Use `string.isEmpty` instead"
+    severity: warning
+
+  empty_array_constructor:
+    name: "Wrong empty array constructor"
+    regex: "(var|let) \\w* = \\[\\w*\\]\\(\\)"
+    message: "Use `var array: [Type] = []` instead"
+    severity: warning
+
+  boolean_redundant_condition:
+    name: "Redundant Boolean Condition"
+    regex: "(== true)|(== false)|(!= true)|(!= false)"
+    message: "Comparing a boolean to true is redundant (use `?? false` for optionals), and `!`-syntax is preferred over comparing to false."
+    severity: warning
+
+  boolean_clear_condition:
+    name: "Overcomplicated condition"
+    regex: "^(?>(?!(as\\?)|(\\?.)).)*((!= true)|(!= false)).*$"
+    message: "Use `== true` or `== false` or variable as condition"
+    severity: warning
+
+  documentation_ticks:
+    name: "Incorrect apostrophe in the documentation"
+    regex: "´"
+    message: "Use '`' instead of '´' for correct work of documentation"
+    match_kinds:
+      - comment
+      - doccomment
+    severity: error
+
+  boolean_in_ternar_return:
+    name: "Returning Bool from ternary expression"
+    regex: "\\? (true : false)|(false : true)"
+    message: "Do not use ternary expression for returning Bool"
+    severity: warning
+
+  unowned:
+    name: "Usage of unowned is forbidden"
+    regex: "\\[unowned "
+    message: "Use `weak` instead of `unowned`"
+    severity: error
+
+  type_inferred_context:
+    name: "Unnecessary type indication"
+    regex: "^\\w* *((var)|(let)) \\w+\\:\\s(\\w+)\\s\\=\\s\\4"
+    message: "Use `var a = Type()` instead"
+    severity: warning
+
+  color_literal:
+    name: "Color literals are forbidden"
+    regex: "#colorLiteral"
+    message: "Use the ready-made colors added to the app"
+    severity: error
+
+  objc_inline:
+    name: "Wrong `@objc` syntax"
+    regex: "@objc\\n"
+    message: "Use single line `@objc` syntax"
+    severity: error
+
+  view_controller_naming:
+    name: "UIViewController naming"
+    regex: "(class) (\\w+)(?<!(ViewController)|(Self))(:| =) UIViewController"
+    message: "Add `ViewController` suffix"
+    severity: error
+
+  debug_logging:
+    name: "Debug logging"
+    regex: "Logger.debug\\(\\w+\\)"
+    message: "Remove debug logging"
+    severity: warning
+
+  explicit_internal_acl:
+    name: "Internal ACL"
+    regex: "internal"
+    message: "Remove `internal` ACL"
+    match_kinds:
+        - attribute.builtin
+    severity: warning
+
+  swiftui_views_naming:
+    name: "SwiftUI view naming"
+    regex: "(struct|var|let) (\\w+)(?<!View)(?<! body)(?<! previews): (View|some View) \\w*"
+    message: "Add `-View` suffix"
+    severity: warning
+
+  private_subviews:
+    name: "SwiftUI subviews ACL"
+    regex: "(?<!private) (var|let) (\\w+)(?<! body)(?<! previews): some View"
+    message: "Add `private` ACL to the subview declaration"
+    severity: warning
+
+  multiple_empty_lines:
+    name: "Multiple empty lines"
+    regex: '((?:\s*\n){3,})'
+    message: "There are too many line breaks"
+    severity: warning
+
+  fatal_error:
+    name: "Fatal error usage"
+    regex: "fatalError\\(.*\\)"
+    message: "Usage of `fatalError()` is prohibited"
+    severity: error
+
+  multiline_commented_code:
+    name: "Commented code"
+    regex: '(?<!:|\/)\/\/\h*[a-z.](?!wiftlint)(?!wift-tools-version)'
+    message: "Remove the unneeded code rather than commenting it before PR"
+    match_kinds: comment
+
+  protocol_conformance:
+    name: "Protocol conformance"
+    regex: "(class|struct|extension)[[:space:]]+(?i:(?![^d]*delegate:))[^'\"()<>{},!?:]+:([^'\"<>(){},!?:]+,)+[^'\"<>(){},!?:]*\\{"
+    message: "Protocol conformance should be declared in separate extensions in the same file"
+    match_kinds:
+      - keyword
+    severity: warning
+
+  todo_comment_link:
+    name: "TODO comment ticket"
+    regex: "(TODO)(?!(: https://www.notion.so/neighbrguide/*))"
+    message: "TODOs must follow the pattern `TODO: https://www.notion.so/neighbrguide/*`"
+    match_kinds: comment
+    severity: warning
+
+  zero_constant:
+    name: "Zero constant"
+    regex: "\\s0.0$"
+    message: "Use `.zero` instead of `0.0`"
+    severity: warning
+
+  system_image_usage:
+    name: "System image usage"
+    regex: "Image\\(systemName:"
+    message: "Use `Imaginator.System` instead"
+    severity: warning
+
+  debug_colors:
+    name: "Debug colors"
+    regex: ".background\\(\\.(red|blue|yellow|green|purple|pink|orange|gray)\\)"
+    message: "Remove the debug colors before PR"
+    severity: warning

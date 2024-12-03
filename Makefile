@@ -7,7 +7,18 @@
 GITHUB_DEFAULT_REPO_URL_PREFIX = git@github.com:heartsker/
 GIT_EXTENSION = .git
 INFRA_PATH = _infra
-INFRA_HOOKS_PATH = $(INFRA_PATH)/hooks
+HOOKS_PATH = $(INFRA_PATH)/hooks
+REQUIREMENTS_PATH = $(INFRA_PATH)/requirements
+
+# Setup omnivault
+setup:
+	@echo "🚀 Setting up repository"
+
+	@$(MAKE) -C $(REQUIREMENTS_PATH) install-requirements
+
+	@$(MAKE) -C $(HOOKS_PATH) install-hooks
+
+	@echo "✅ Setup complete!"
 
 # Pull the main repo and all submodules recursively
 pull:
@@ -54,14 +65,6 @@ submodules:
 	@echo "🔄 Running command $c for all submodules..."
 	@git submodule foreach --quiet $c
 	@echo "✅ Finished running command for all submodules."
-
-# Setup repository and submodules
-setup:
-	@echo "🚀 Setting up repository and submodules..."
-
-	@$(MAKE) -C $(INFRA_HOOKS_PATH) install-hooks
-
-	@echo "✅ Setup complete!"
 
 # Helpers
 
