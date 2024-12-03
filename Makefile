@@ -24,46 +24,47 @@ setup:
 pull:
 	@_infra/pull.sh
 
-# Commit all changes in submodules and main repository and push
-commit:
-	$(call assert,git submodule status --recursive | grep -q "^[+-]",❌ Some submodules have uncommitted changes. Please commit or stash them before)
-	@echo "🔄 Committing changes for the main repository..."
-	@git add .
-	@git commit -m "$m"
-	@echo "✅ Commit complete!"
-
 # 🚀 Push all repositories (main repo + submodules)
 push:
-	@_infra/push.sh
+	@git push
+
+# Commit all changes in repository
+# Guard against uncommitted changes in submodules
+# m: commit message
+commit:
+	$(call assert,git submodule status --recursive | grep -q "^[+-]",❌ Some submodules have uncommitted changes. Please commit or stash them before)
+	$(call assert-argument,message,$(m),make commit m=<message>)
+
+	@echo "🚀 Committing changes for the main repository"
+
+	@git commit -am "$m" || echo "❌ Something went wrong while committing changes. Please check the error message above." && exit 1
+
+	@echo "✅ Commit complete!"
 
 # Add a new submodule
 # p: path of the submodule
 # u: URL of the submodule (optional) - default is the GitHub URL
 add-submodule:
-	$(call assert-argument, key=$(p), name="path", usage="make add-submodule p=<path> [u=<url>]")
+	$(call assert-argument,path,$(p),make add-submodule p=<path> [u=<url>])
+
+	@echo "🚀 Adding submodule at path $(p)"
 
 	@if [ ! -d "$(p)" ]; then \
-		echo "👀 Path $(p) does not exist. Trying to clone the submodule..."; \
+		echo "💡 Path $(p) does not exist. Trying to clone the submodule"; \
 		git clone $(GITHUB_DEFAULT_REPO_URL_PREFIX)$p$(GIT_EXTENSION) $(p) || exit 1; \
 	fi
 
-	git submodule add $(GITHUB_DEFAULT_REPO_URL_PREFIX)$p$(GIT_EXTENSION) $(p)
+	@git submodule add $(GITHUB_DEFAULT_REPO_URL_PREFIX)$p$(GIT_EXTENSION) $(p) || echo "❌ Something went wrong while adding the submodule. Please check the error message above." && exit 1
 
 	@echo "✅ Submodule added and setup!"
-
-# Push all changes (from root and submodules)
-push-all:
-	@echo "🚀 Pushing changes for all submodules..."
-	@find . -type f -name "Makefile" -execdir $(MAKE) push \;
-	@echo "✅ All submodules pushed!"
 
 # Run a command for all submodules
 # c: command to run
 submodules:
 	$(call assert-argument,command,$(c),make submodules c=<your-command>)
 
-	@echo "🔄 Running command $c for all submodules..."
-	@git submodule foreach --quiet $c
+	@echo "🚀 Running command $c for all submodules"
+	@git submodule foreach --quiet $c || echo "❌ Something went wrong while running the command. Please check the error message above." && exit 1
 	@echo "✅ Finished running command for all submodules."
 
 # Helpers
