@@ -13,11 +13,12 @@ repos:
     rev: v3.6.0
     hooks:
       - id: conventional-pre-commit
-        args: []
+        stages: [commit-msg]
+        args: [--strict, --force-scope, feat, fix, chore, test, tech]
   - repo: https://github.com/asottile/setup-cfg-fmt
     rev: v2.7.0
     hooks:
-    -   id: setup-cfg-fmt
+      - id: setup-cfg-fmt
   - repo: https://github.com/asottile/reorder-python-imports
     rev: v3.14.0
     hooks:

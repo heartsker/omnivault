@@ -10,6 +10,7 @@ install-hooks:
 	@echo "🚀 Setting up git hooks"
 
 	@pre-commit install -c $(CONFIGS)/.pre-commit-config.yaml
+	@pre-commit install --hook-type commit-msg -c $(CONFIGS)/.pre-commit-config.yaml
 	@cp $(GIT_HOOKS_PATH)/pre-commit $(HOOKS_TEMPLATES_PATH)
 
 	@rm -rf $(GIT_HOOKS_PATH)
