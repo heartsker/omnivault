@@ -52,3 +52,4 @@ repos:
     rev: 0.50.3
     hooks:
       - id: swiftlint
+        entry: swiftlint --fix --strict --config /Users/heartsker/Documents/omnivault/_infra/configs/.swiftlint.yml
