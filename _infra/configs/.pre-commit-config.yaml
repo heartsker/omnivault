@@ -13,7 +13,6 @@ repos:
     rev: v3.6.0
     hooks:
       - id: conventional-pre-commit
-        stages: [commit-msg]
         args: []
   - repo: https://github.com/asottile/setup-cfg-fmt
     rev: v2.7.0
