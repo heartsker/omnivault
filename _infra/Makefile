@@ -29,9 +29,10 @@ install-hooks:
 
 	@git submodule foreach --quiet --recursive "\
 		echo \"⏳ Setting up hooks for \$$name...\"; \
-		rm -rf \$$sm_path/.git/hooks; \
-		mkdir -p \$$sm_path/.git/hooks; \
-		cp $(GIT_HOOKS_PATH)/* \$$sm_path/.git/hooks; \
+		rm -rf .git/hooks; \
+		mkdir -p .git/hooks; \
+		cp $(HOOKS_TEMPLATES) .git/hooks; \
+		ls .git/hooks; \
 		pre-commit install -c $(CONFIGS)/.pre-commit-config.yaml; \
 		pre-commit install -c $(CONFIGS)/.pre-commit-config.yaml --hook-type commit-msg; \
 	"

@@ -1,9 +1,27 @@
 #!/bin/bash
 
-echo "📂 Updating submodules after commit..."
-git submodule foreach --recursive --quiet '
-  echo "📦 Committing changes in $name...";
-  git add . && git commit -m "Update submodule $name" || echo "No changes to commit in $name.";
-  echo "✅ Changes in $name committed!";
-'
+echo "🚀 Updating parent repository"
+
+submodule_name=$(basename `git rev-parse --show-toplevel`)
+# parent_repo_path=$(git rev-parse --show-toplevel)
+
+parent_repo_path=$(git rev-parse --show-superproject-working-tree)
+
+if [ -z "$parent_repo_path" ]; then
+	echo "✅ At the root of the repository, nothing to do."
+  	exit 0
+fi
+
+pwd
+
+echo submodule_name = $submodule_name
+echo parent_repo_path = $parent_repo_path
+
+cd $parent_repo_path
+
+pwd
+
+git add $submodule_name
+git commit -m "auto: update $submodule_name"
+
 echo "✅ All submodules updated!"
