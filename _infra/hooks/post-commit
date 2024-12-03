@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "🚀 Updating parent repository"
-
 commit_message=$(git log -1 --pretty=%B)
 parent_repo_path=$(git rev-parse --show-superproject-working-tree)
 
@@ -9,6 +7,8 @@ if [ -z "$parent_repo_path" ]; then
 	echo "✅ At the root of the repository, finishing up!"
   	exit 0
 fi
+
+echo "🚀 Updating parent repository"
 
 submodule_name=$(basename `git rev-parse --show-toplevel`)
 submodule_absolute_path=$(git rev-parse --show-toplevel)
