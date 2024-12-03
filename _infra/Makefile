@@ -32,7 +32,6 @@ install-hooks:
 		rm -rf .git/hooks; \
 		mkdir -p .git/hooks; \
 		cp $(HOOKS_TEMPLATES) .git/hooks; \
-		ls .git/hooks; \
 		pre-commit install -c $(CONFIGS)/.pre-commit-config.yaml; \
 		pre-commit install -c $(CONFIGS)/.pre-commit-config.yaml --hook-type commit-msg; \
 	"
