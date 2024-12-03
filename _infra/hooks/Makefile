@@ -8,14 +8,17 @@ CONFIGS = $(VAULT_ROOT)/_infra/configs
 install-hooks:
 	@echo "🚀 Setting up git hooks"
 
+	rm -rf $(GIT_HOOKS_PATH)
+	mkdir -p $(GIT_HOOKS_PATH)
+	find $(HOOKS_TEMPLATES) -type f ! -name 'Makefile' -exec cp {} $(GIT_HOOKS_PATH) \;
+
 	@pre-commit install -c $(CONFIGS)/.pre-commit-config.yaml
 
-	@mkdir -p $(VAULT_ROOT)/.git/hooks
-	@cp $(HOOKS_TEMPLATES) $(GIT_HOOKS_PATH)
 	@git submodule foreach --quiet --recursive "\
 		echo \"⏳ Setting up hooks for \$$name...\"; \
+		rm -rf \$$sm_path/.git/hooks; \
 		mkdir -p \$$sm_path/.git/hooks; \
-		cp $(HOOKS_TEMPLATES) \$$sm_path/.git/hooks/; \
+		find $(HOOKS_TEMPLATES) -type f ! -name 'Makefile' -exec cp {} \$$sm_path/.git/hooks/ \; \
 	"
 
 	@echo "✅ Hooks setup complete!"
