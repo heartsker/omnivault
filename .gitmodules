@@ -19,6 +19,3 @@
 [submodule "wordle"]
 	path = wordle
 	url = git@github.com:heartsker/wordle.git
-[submodule "test"]
-	path = test
-	url = git@github.com:heartsker/test.git
