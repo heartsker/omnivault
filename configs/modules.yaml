@@ -1,0 +1,24 @@
+# list of modules to be cloned
+# name: name of the repository
+# url: url of the repository (optional, default: git@github.com/<username>/<name>.git)
+# branch: branch to be cloned (optional, default: default branch)
+# destination: destination relative to the root of the repository (optional, default: destination from settings)
+modules:
+  - name: apps
+  - name: CoreKit
+  - branch: 2024-2025
+    name: hse-cs
+  - branch: gh-pages
+    name: resume
+  - name: system-configuration
+  - name: wordle
+# base settings for the modules
+settings:
+  # destination relative to the root of the repository (omnivault)
+  destination: ../vault
+  # hooks directory relative to the root of the repository (omnivault)
+  hooks: hooks
+  # pre-commit configuration file relative to the root of the repository (omnivault)
+  pre_commit_config: configs/.pre-commit-config.yaml
+  # username of the owner of the repositories
+  username: heartsker
