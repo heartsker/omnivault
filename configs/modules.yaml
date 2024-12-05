@@ -15,7 +15,7 @@ modules:
 # base settings for the modules
 settings:
   # destination relative to the root of the repository (omnivault)
-  destination: ../vault
+  destination: ../dp
   # hooks directory relative to the root of the repository (omnivault)
   hooks: hooks
   # pre-commit configuration file relative to the root of the repository (omnivault)

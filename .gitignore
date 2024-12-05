@@ -1,3 +1,4 @@
 _fun
 
 __pycache__/
+.mypy_cache/
