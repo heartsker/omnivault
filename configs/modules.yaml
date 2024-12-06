@@ -1,8 +1,9 @@
 # list of modules to be cloned
-# name: name of the repository
-# url: url of the repository (optional, default: git@github.com/<username>/<name>.git)
 # branch: branch to be cloned (optional, default: default branch)
 # destination: destination relative to the root of the repository (optional, default: destination from settings)
+# name: name of the repository
+# url: url of the repository (optional, default: git@github.com/<username>/<name>.git)
+# skip_hooks: skip hooks for the repository (optional, default: false)
 modules:
   - name: apps
   - name: CoreKit
@@ -12,6 +13,9 @@ modules:
     name: resume
   - name: system-configuration
   - name: wordle
+  - name: _fun
+    branch: max-fun
+    skip_hooks: true
 # base settings for the modules
 settings:
   # destination relative to the root of the repository (omnivault)

@@ -87,6 +87,8 @@ def main() -> None:
     print('⏳ Installing for modules')
 
     for module_config in config.modules:
+        if module_config.skip_hooks:
+            continue
         install_hooks_for_module(
             hooks_path=hooks_path, repo_path=module_config.repo_path,
             pre_commit_config_path=config.pre_commit_config_path,

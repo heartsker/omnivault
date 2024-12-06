@@ -24,6 +24,7 @@ class CONFIG_KEYS:
         URL = 'url'
         DESTINATION = 'destination'
         BRANCH = 'branch'
+        SKIP_HOOKS = 'skip_hooks'
 
 
 class ModuleConfig:
@@ -38,11 +39,13 @@ class ModuleConfig:
         url: str,
         repo_path: str,
         branch: str | None = None,
+        skip_hooks: bool = False,
     ) -> None:
         self.name = name
         self.url = url
         self.repo_path = repo_path
         self.branch = branch
+        self.skip_hooks = skip_hooks
 
 
 class Config:
@@ -122,11 +125,13 @@ def create_config(raw_config: dict[str, Any]) -> Config:
         )
         repo_path = path.normpath(path.join(repo_root_path(), relative_path))
         branch = raw_module.get(CONFIG_KEYS.MODULES.BRANCH)
+        skip_hooks = raw_module.get(CONFIG_KEYS.MODULES.SKIP_HOOKS, False)
 
         modules.append(
             ModuleConfig(
                 name=name, url=url,
                 repo_path=repo_path, branch=branch,
+                skip_hooks=skip_hooks,
             ),
         )
 
