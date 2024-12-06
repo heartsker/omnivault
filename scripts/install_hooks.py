@@ -9,6 +9,7 @@ from subprocess import run
 
 from config import load_config
 from utils import repo_hooks_path
+from utils import repo_submodules_paths
 
 
 def install_pre_commit_hooks(pre_commit_config_path: str, repo_path: str) -> None:
@@ -55,16 +56,34 @@ def install_hooks(hooks_path: str, repo_path: str) -> None:
             raise RuntimeError(f'❌ Failed to copy hook {hook}') from e
 
 
+def install_hooks_for_module(hooks_path: str, repo_path: str, pre_commit_config_path: str) -> None:
+    print(f'⏳ Installing for {repo_path}')
+    if path.exists(hooks_path):
+        install_hooks(hooks_path=hooks_path, repo_path=repo_path)
+    install_pre_commit_hooks(
+        pre_commit_config_path=pre_commit_config_path, repo_path=repo_path,
+    )
+
+    for relative_submodule_path in repo_submodules_paths(repo_path):
+        submodule_path = path.join(repo_path, relative_submodule_path)
+        install_hooks_for_module(
+            hooks_path=hooks_path, repo_path=submodule_path,
+            pre_commit_config_path=pre_commit_config_path,
+        )
+
+
 def main() -> None:
     config = load_config()
 
     hooks_path = config.hooks_path
-    if not path.exists(hooks_path):
-        raise FileNotFoundError(f'❌ Hooks path not found: {hooks_path}')
 
     print('⏳ Installing for root')
 
-    install_hooks(hooks_path=config.hooks_path, repo_path=config.root_path)
+    if path.exists(hooks_path):
+        install_hooks(hooks_path=config.hooks_path, repo_path=config.root_path)
+    else:
+        print(f'💡 No hooks found at {hooks_path}')
+
     install_pre_commit_hooks(
         pre_commit_config_path=config.pre_commit_config_path, repo_path=config.root_path,
     )
@@ -72,11 +91,9 @@ def main() -> None:
     print('⏳ Installing for modules')
 
     for module_config in config.modules:
-        print(f'⏳ Installing for {module_config.name}')
-        print(f'⏳ Installing for {module_config.repo_path}')
-        install_hooks(hooks_path=hooks_path, repo_path=module_config.repo_path)
-        install_pre_commit_hooks(
-            pre_commit_config_path=config.pre_commit_config_path, repo_path=module_config.repo_path,
+        install_hooks_for_module(
+            hooks_path=hooks_path, repo_path=module_config.repo_path,
+            pre_commit_config_path=config.pre_commit_config_path,
         )
 
 
