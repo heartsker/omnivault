@@ -38,13 +38,14 @@ def install_hooks(hooks_path: str, repo_path: str) -> None:
     if not module_hooks_path:
         return
 
-    print(module_hooks_path)
-
     if path.isdir(module_hooks_path) and listdir(module_hooks_path):
         rmtree(module_hooks_path)
 
     if not path.isdir(module_hooks_path):
         makedirs(module_hooks_path)
+
+    if not path.exists(hooks_path):
+        return
 
     for hook in listdir(hooks_path):
         hook_source = path.join(hooks_path, hook)
@@ -58,8 +59,7 @@ def install_hooks(hooks_path: str, repo_path: str) -> None:
 
 def install_hooks_for_module(hooks_path: str, repo_path: str, pre_commit_config_path: str) -> None:
     print(f'⏳ Installing for {repo_path}')
-    if path.exists(hooks_path):
-        install_hooks(hooks_path=hooks_path, repo_path=repo_path)
+    install_hooks(hooks_path=hooks_path, repo_path=repo_path)
     install_pre_commit_hooks(
         pre_commit_config_path=pre_commit_config_path, repo_path=repo_path,
     )
@@ -79,11 +79,7 @@ def main() -> None:
 
     print('⏳ Installing for root')
 
-    if path.exists(hooks_path):
-        install_hooks(hooks_path=config.hooks_path, repo_path=config.root_path)
-    else:
-        print(f'💡 No hooks found at {hooks_path}')
-
+    install_hooks(hooks_path=config.hooks_path, repo_path=config.root_path)
     install_pre_commit_hooks(
         pre_commit_config_path=config.pre_commit_config_path, repo_path=config.root_path,
     )
