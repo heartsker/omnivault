@@ -14,10 +14,6 @@ repos:
         name: <fix> mixed line endings
       - id: name-tests-test
         name: (python) tests naming
-      - id: pretty-format-json
-        name: (json) pretty format
-        args:
-          - --indent=4
       - id: requirements-txt-fixer
         name: <fix> requirements.txt
       - id: trailing-whitespace
