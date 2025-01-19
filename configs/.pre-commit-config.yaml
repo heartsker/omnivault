@@ -60,5 +60,5 @@ repos:
     hooks:
       - id: mypy
         name: (python) mypy
-        additional_dependencies: [types-pyyaml]
+        additional_dependencies: [types-pyyaml, types-requests]
         exclude: ^testing/resources/

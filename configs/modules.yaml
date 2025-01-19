@@ -7,6 +7,7 @@
 modules:
   - name: apps
   - name: CoreKit
+    skip_hooks: true
   - branch: 2024-2025
     name: hse-cs
   - branch: gh-pages
@@ -17,8 +18,10 @@ modules:
     branch: max-fun
     skip_hooks: true
   - name: my-finance
+    skip_hooks: true
   - name: publear
     branch: develop
+  - name: trading-bot
 # base settings for the modules
 settings:
   # destination relative to the root of the repository (omnivault)
