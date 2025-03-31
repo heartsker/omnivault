@@ -48,6 +48,10 @@ repos:
     hooks:
       - id: autopep8
         name: (python) autopep8
+        args:
+          - --in-place
+          - --ignore=E501   # Disable "line too long" fixes
+          - -a
   - repo: https://github.com/PyCQA/flake8
     rev: 7.1.1
     hooks:
